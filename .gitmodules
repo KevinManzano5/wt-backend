@@ -1,0 +1,6 @@
+[submodule "auth-microservice"]
+	path = auth-microservice
+	url = https://github.com/KevinManzano5/auth-microservice.git
+[submodule "movies-microservice"]
+	path = movies-microservice
+	url = https://github.com/KevinManzano5/movies-microservice.git
