@@ -4,3 +4,6 @@
 [submodule "movies-microservice"]
 	path = movies-microservice
 	url = https://github.com/KevinManzano5/movies-microservice.git
+[submodule "gateway"]
+	path = gateway
+	url = https://github.com/KevinManzano5/gateway.git
