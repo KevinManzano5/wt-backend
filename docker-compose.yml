@@ -14,7 +14,7 @@ services:
       - ./gateway/src:/usr/src/app/src
     command: npm run start:dev
     environment:
-      - NATS_SERVERS=nats://nats-server:4222
+      - NATS_SERVERS=${NATS_SERVERS}
       - PORT=${GATEWAY_PORT}
 
   auth-microservice:
@@ -25,4 +25,14 @@ services:
       - ./auth-microservice/src:/usr/src/app/src
     command: npm run start:dev
     environment:
-      - NATS_SERVERS=nats://nats-server:4222
+      - NATS_SERVERS=${NATS_SERVERS}
+
+  movies-microservice:
+    depends_on:
+      - gateway
+    build: ./movies-microservice
+    volumes:
+      - ./movies-microservice/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - NATS_SERVERS=${NATS_SERVERS}
