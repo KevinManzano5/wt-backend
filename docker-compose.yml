@@ -4,9 +4,22 @@ services:
     ports:
       - 8222:8222
 
+  auth-database:
+    image: postgres:16.2
+    restart: always
+    volumes:
+      - ./auth-microservice/postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=users
+
   gateway:
     depends_on:
       - nats-server
+      - auth-database
     build: ./gateway
     ports:
       - ${GATEWAY_PORT}:${GATEWAY_PORT}
@@ -19,12 +32,14 @@ services:
 
   auth-microservice:
     depends_on:
+      - auth-database
       - gateway
     build: ./auth-microservice
     volumes:
       - ./auth-microservice/src:/usr/src/app/src
     command: npm run start:dev
     environment:
+      - DATABASE_URL=${DATABASE_URL}
       - NATS_SERVERS=${NATS_SERVERS}
 
   movies-microservice:
